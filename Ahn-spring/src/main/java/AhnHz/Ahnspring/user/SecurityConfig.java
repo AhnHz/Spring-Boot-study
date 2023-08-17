@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.concurrent.ExecutionException;
 
@@ -23,7 +24,9 @@ public class SecurityConfig {
                 .and().csrf().ignoringAntMatchers("/h2-console/**")
                 .and().headers().addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))    // 프레임에 포함된 페이지가 페이지를 제공하는 사이트와 동일한 경우에는 계속 사용 가능
-                .and().formLogin().loginPage("/user/login").defaultSuccessUrl("/");
+                .and().formLogin().loginPage("/user/login").defaultSuccessUrl("/")
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                .logoutSuccessUrl("/").invalidateHttpSession(true);
         return http.build();
     }
 

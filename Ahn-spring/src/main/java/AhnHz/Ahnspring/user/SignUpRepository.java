@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface SignUpRepository extends JpaRepository<SignUp, Long> {
 
-    Optional <SignUp> findByUsername(String username);
+    Optional<SignUp> findByUsername(String username);
 
     SignUp findByUsernameAndEmail(String username, String email);
 
